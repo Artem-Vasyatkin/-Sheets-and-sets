@@ -5,10 +5,17 @@ import java.util.Objects;
 public class Employee {
     private String firstName;
     private String lastName;
+    private double salary;
+    private int department;
 
-    public Employee(String firstName, String lastName) {
+    public Employee(String firstName, String lastName, double salary, int department) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.salary = salary;
+        this.department = department;
+    }
+
+    public Employee(String firstName, String lastName) {
     }
 
     public String getFirstName() {
@@ -17,6 +24,30 @@ public class Employee {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public int getDepartment() {
+        return department;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public void setDepartment(int department) {
+        this.department = department;
     }
 
     public String getFullName() {
@@ -28,20 +59,20 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(firstName, employee.firstName) &&
-                Objects.equals(lastName, employee.lastName);
+        return Double.compare(salary, employee.salary) == 0
+                && department == employee.department
+                && Objects.equals(firstName, employee.firstName)
+                && Objects.equals(lastName, employee.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName);
+        return Objects.hash(firstName, lastName, salary, department);
     }
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
+        return String.format("%s %s, department: %s, salary: %s",
+                salary, department, firstName, lastName);
     }
 }
