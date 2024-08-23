@@ -3,6 +3,7 @@ package com.example.coursework.service;
 import com.example.coursework.exception.EmployeeAlreadyAddedException;
 import com.example.coursework.exception.EmployeeNotFoundException;
 import com.example.coursework.model.Employee;
+import com.example.coursework.validation.ParameterValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,12 +13,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final Map<String, Employee> employees;
 
-    public EmployeeServiceImpl() {
+    public EmployeeServiceImpl(ParameterValidator parameterValidator) {
+        this.parameterValidator = parameterValidator;
         this.employees = new HashMap<>();
     }
 
+    private final ParameterValidator parameterValidator;
+
+    public EmployeeServiceImpl(Map<String, Employee> employees, ParameterValidator parameterValidator) {
+        this.employees = employees;
+        this.parameterValidator = parameterValidator;
+    }
+
+
     @Override
     public Employee add(String firstName, String lastName, int department, double salary) {
+
+        firstName = parameterValidator.checkAndCapitalize(firstName);
+        lastName = parameterValidator.checkAndCapitalize(lastName);
+
         Employee employee = new Employee(firstName, lastName,salary, department);
         if (employees.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAddedException();
