@@ -4,6 +4,7 @@ import com.example.coursework.exception.EmployeeAlreadyAddedException;
 import com.example.coursework.exception.EmployeeNotFoundException;
 import com.example.coursework.model.Employee;
 import com.example.coursework.validation.ParameterValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -11,19 +12,16 @@ import java.util.*;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final Map<String, Employee> employees;
+    private final static int MAX_WORKERS_AMOUNT = 10;
 
+    private final Map<String, Employee> employees;
+@Autowired
     public EmployeeServiceImpl(ParameterValidator parameterValidator) {
         this.parameterValidator = parameterValidator;
         this.employees = new HashMap<>();
     }
 
     private final ParameterValidator parameterValidator;
-
-    public EmployeeServiceImpl(Map<String, Employee> employees, ParameterValidator parameterValidator) {
-        this.employees = employees;
-        this.parameterValidator = parameterValidator;
-    }
 
 
     @Override
